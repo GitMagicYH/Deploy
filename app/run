@@ -1,0 +1,31 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * The command.php is like index.php in the public folder.
+ * It initiates the environment and runs the app.
+ * You can reuse everything in this project.
+ */
+
+use Caravel\Console\Commander;
+use Caravel\Console\Command;
+
+//error_reporting(E_ALL);
+//set_time_limit(0);
+//ini_set('error_log', '/tmp/caravel_command_php_error.log');
+//ini_set('memory_limit', -1);
+
+require_once dirname(__DIR__) . "/vendor/autoload.php";
+
+$commander = new Commander();
+
+try {
+
+    $response = $commander->execute(Config::get("command", true));
+
+    $commander->render($response);
+
+} catch (Exception $e) {
+    print_r(Command::red("Exception: " . $e->getMessage() . "\n"));
+    print_r($e->getTrace());
+}
